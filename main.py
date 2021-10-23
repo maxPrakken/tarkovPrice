@@ -139,5 +139,6 @@ if __name__ == "__main__":
     cv2.waitKey(0xFFFF)
     
 else:
-	return
+	print(quit)
+	quit()
 	
