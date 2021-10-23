@@ -37,6 +37,7 @@ def has_image(haystack, needle):
     except:
             return (-1, -1)
 
+#if run by itsself and not from other file
 if __name__ == "__main__":
 
     #take screenshot
@@ -105,6 +106,7 @@ if __name__ == "__main__":
                 print(res[traderfirst:tradersecond])
                 print('\n========================================\n')
 
+			#if running on windows
             elif platform == "win32":
                 res = subprocess.run(command, capture_output=True, text=True)
                 
@@ -135,3 +137,7 @@ if __name__ == "__main__":
 
     #cv2.imshow("Found the item at (%d,%d)" % (x, y), screenshot)
     cv2.waitKey(0xFFFF)
+    
+else:
+	return
+	
