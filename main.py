@@ -25,17 +25,17 @@ def trim_string(str): # cuts off the slash and extention from filename
     return sub2
 
 def has_image(haystack, needle):
-    haystack = cv2.cvtColor(haystack, cv2.COLOR_BGR2GRAY)
-    needle = cv2.cvtColor(needle, cv2.COLOR_BGR2GRAY)
-    w, h = needle.shape[::-1]
-    res = cv2.matchTemplate(haystack, needle, cv2.TM_CCOEFF_NORMED)
-    threshold = 0.95
-    loc = np.where(res >= threshold)
-    try:
-            assert loc[0][0] > 0
-            assert loc[1][0] > 0
-            return (loc[1][0], loc[0][0])
-    except:
+	haystack = cv2.cvtColor(haystack, cv2.COLOR_BGR2GRAY)
+	needle = cv2.cvtColor(needle, cv2.COLOR_BGR2GRAY)
+	w, h = needle.shape[::-1]
+	res = cv2.matchTemplate(haystack, needle, cv2.TM_CCOEFF_NORMED)
+	threshold = 0.90
+	loc = np.where(res >= threshold)
+	try:
+		assert loc[0][0] > 0
+		assert loc[1][0] > 0
+		return (loc[1][0], loc[0][0])
+	except:
             return (-1, -1)
 
 def get_images(images):
@@ -60,9 +60,8 @@ def get_images(images):
     	#make a list of item screenshots
 		for cat in filenames:
 			for img in cat:
-				print(img)
 				myImage = MyImage(img)
-			images.append(myImage)
+				images.append(myImage)
 
 
 #if run by itsself and not from other file
@@ -75,7 +74,6 @@ if __name__ == "__main__":
     # numpy array and BGR so we can write to disk
     #screenshot = cv2.cvtColor(np.array(screenshot),
                  #cv2.COLOR_RGB2BGR)
-
 	images = []
 
 	get_images(images)
@@ -85,7 +83,9 @@ if __name__ == "__main__":
     #cv2.imwrite("screenshot.jpg", screenshot)
 	
 	for img in images:
-		x, y = has_image(screenshot, img.img)
+		print(img.name)
+		mi = MyImage("cpu.png")
+		x, y = has_image(screenshot, mi.img)
 
 		if x >= 0 and y >= 0:
 			trmstr = trim_string(img.name)
