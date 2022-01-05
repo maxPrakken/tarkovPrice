@@ -15,7 +15,7 @@ def run():
     #captures output into res and converts to str due to text=true
     res = subprocess.run(command, capture_output=True, text=True)
 
-    if(res):
+    if(res is not None):
         #base indexes
         basefirst = res.stdout.index("basePrice")
         basesecond = res.stdout.find(',', basefirst)
@@ -36,7 +36,7 @@ def run():
         print('\n========================================\n')
 
     else:
-        print('===BAD INPUT===')
+        print('===BAD REQUEST===')
 
 while True:
     if apikey is None:
@@ -45,6 +45,7 @@ while True:
     try:
         run()
     except:
+        print('===BAD INPUT===')
         run()
     
     
