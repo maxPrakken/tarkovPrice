@@ -12,7 +12,6 @@ while True:
         
         #gets item description from tarkov-market by argument
         command = 'curl -H x-api-key:' + apikey + ' https://tarkov-market.com/api/v1/item?q=' + item#sys.argv[1]
-        print(command)
         #captures output into res and converts to str due to text=true
         res = subprocess.run(command, capture_output=True, text=True)
 
