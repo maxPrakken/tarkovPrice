@@ -29,20 +29,21 @@ def trim_string(str):  # cuts off the slash and extention from filename
 def has_image(haystack, needle):
     haystack = cv2.cvtColor(haystack, cv2.COLOR_BGR2GRAY)
     needle = cv2.cvtColor(needle, cv2.COLOR_BGR2GRAY)
+
     w, h = needle.shape[::-1]
     res = cv2.matchTemplate(haystack, needle, cv2.TM_CCOEFF_NORMED)
 
-    y, x = np.unravel_index(res.argmax(), res.shape)
-    return x, y
+    minval, maxval, minloc, maxloc = cv2.minMaxLoc(res)
+    print(maxval)
 
-    threshold = 0.90
+    threshold = 0.7
     loc = np.where(res >= threshold)
-    try:
-        assert loc[0][0] > 0
-        assert loc[1][0] > 0
-        return loc[1][0], loc[0][0]
-    except:
-        return -1, -1
+    for pt in zip(*loc[::-1]):
+        #cv2.rectangle(, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
+        if pt != None:
+            return True
+    else:
+        return False
 
 
 def get_images(images, mode):
@@ -65,10 +66,9 @@ def get_images(images, mode):
                 filenames.append(tempnames)  # filenames is a list of lists with filenames
 
     else:
-        for item in os.listdir("items/" + mode + "/"):
-            ilocation = "items/" + mode + "/*.png"
-            tempnames = [img for img in glob.glob(ilocation)]
-            filenames.append(tempnames)
+        ilocation = "items/" + mode + "/*.png"
+        tempnames = [img for img in glob.glob(ilocation)]
+        filenames.append(tempnames)
 
     # make a list of item screenshots
     for cat in filenames:
@@ -102,9 +102,9 @@ if __name__ == "__main__":
 
     for img in images:
         mi = MyImage(img.name)
-        x, y = has_image(screenshot, mi.img)
+        matches = has_image(screenshot, mi.img)
 
-        if x >= 0 and y >= 0:
+        if matches:
             trmstr = trim_string(img.name)
 
             # print("found " + img.name)
