@@ -108,9 +108,7 @@ if __name__ == "__main__":
             trmstr = trim_string(img.name)
 
             # print("found " + img.name)
-            command = 'curl -H x-api-key:' + apikey + ' https://tarkov-market.com/api/v1/item?q=' + trmstr
-            print(command)
-            # captures output into res and converts to str due to text=true
+            command = 'curl -s -H x-api-key:' + apikey + ' https://tarkov-market.com/api/v1/item?q=' + trmstr
 
             res = None
 
